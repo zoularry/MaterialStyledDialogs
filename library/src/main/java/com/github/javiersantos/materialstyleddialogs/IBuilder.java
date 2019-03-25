@@ -186,6 +186,8 @@ interface IBuilder {
 
     MaterialStyledDialog.Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor);
 
+    MaterialStyledDialog.Builder setHighlightBtn(DialogAction action);
+
     /**
      * Set a positive button text for the dialog. E.g.: "Accept"
      *

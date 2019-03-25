@@ -412,6 +412,12 @@ public class MaterialStyledDialog extends DialogBase {
         }
 
         @Override
+        public Builder setHighlightBtn(DialogAction action) {
+            this.btnAction = action;
+            return this;
+        }
+
+        @Override
         public Builder setPositiveText(@NonNull CharSequence buttonText) {
             this.positive = buttonText;
             return this;
