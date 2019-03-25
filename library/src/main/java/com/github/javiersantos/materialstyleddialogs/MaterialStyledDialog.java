@@ -12,17 +12,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.UiThread;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.afollestad.materialdialogs.internal.MDButton;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 
@@ -37,6 +41,22 @@ public class MaterialStyledDialog extends DialogBase {
         super(builder.context, R.style.MD_Dark);
         mBuilder = builder;
         mBuilder.dialog = initMaterialStyledDialog(builder);
+    }
+
+    public MaterialDialog getBaseDialog() {
+        return mBuilder.dialog;
+    }
+
+    public ImageView getTitleIconView() {
+        View custom = getBaseDialog().getCustomView();
+        if (custom!= null) {
+            return (ImageView) custom.findViewById(R.id.md_styled_header_pic);
+        }
+        return null;
+    }
+
+    public boolean isShowing() {
+        return getBaseDialog().isShowing();
     }
 
     @UiThread
@@ -93,6 +113,21 @@ public class MaterialStyledDialog extends DialogBase {
                 materialDialog.getWindow().getAttributes().windowAnimations = R.style.MaterialStyledDialogs_DialogAnimationFast;
             } else if (builder.duration == Duration.SLOW) {
                 materialDialog.getWindow().getAttributes().windowAnimations = R.style.MaterialStyledDialogs_DialogAnimationSlow;
+            }
+        }
+
+        if (builder.btnAction != null && builder.btnColor != -1) {
+            MDButton btn = materialDialog.getActionButton(builder.btnAction);
+            if (btn != null) {
+                Drawable dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
+                DrawableCompat.setTint(dw, UtilsLibrary.lighter(builder.btnColor, 0.2f));
+                dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
+                DrawableCompat.setTint(dw, builder.btnColor);
+                dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selector, null);
+                btn.setDefaultSelector(dw); //btns in horizontal mode
+                btn.setStackedSelector(dw); //btrs in stacked mode
+                btn.setTextColor(Color.WHITE);
+                //Logger.d(TAG, "setColorBtn: done with " + baseColor);
             }
         }
 
@@ -208,6 +243,8 @@ public class MaterialStyledDialog extends DialogBase {
 
         // .setPositive(), setNegative() and setNeutral()
         protected CharSequence positive, negative, neutral;
+        protected int btnColor;
+        protected DialogAction btnAction;
         protected MaterialDialog.SingleButtonCallback positiveCallback, negativeCallback, neutralCallback;
 
         public Builder(Context context) {
@@ -224,6 +261,8 @@ public class MaterialStyledDialog extends DialogBase {
             this.maxLines = 5;
             this.isAutoDismiss = true;
             this.headerScaleType = AppCompatImageView.ScaleType.CENTER_CROP;
+            this.btnAction = null;
+            this.btnColor = -1;
         }
 
         @Override
@@ -354,6 +393,13 @@ public class MaterialStyledDialog extends DialogBase {
         @Override
         public Builder setPositiveText(@StringRes int buttonTextRes) {
             setPositiveText(this.context.getString(buttonTextRes));
+            return this;
+        }
+
+        @Override
+        public Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor) {
+            this.btnAction = action;
+            this.btnColor = btnColor;
             return this;
         }
 

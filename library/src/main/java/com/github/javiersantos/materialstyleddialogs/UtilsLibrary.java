@@ -1,7 +1,9 @@
 package com.github.javiersantos.materialstyleddialogs;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -29,4 +31,10 @@ class UtilsLibrary {
         return Build.VERSION.SDK_INT >= api;
     }
 
+    public static int lighter(@ColorInt int color, float factor) {
+        int red = (int) ((Color.red(color) * (1 - factor) / 255 + factor) * 255);
+        int green = (int) ((Color.green(color) * (1 - factor) / 255 + factor) * 255);
+        int blue = (int) ((Color.blue(color) * (1 - factor) / 255 + factor) * 255);
+        return Color.argb(Color.alpha(color), red, green, blue);
+    }
 }

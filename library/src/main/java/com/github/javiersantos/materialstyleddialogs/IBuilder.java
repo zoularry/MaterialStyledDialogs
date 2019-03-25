@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
@@ -182,6 +183,8 @@ interface IBuilder {
      * @return this
      */
     MaterialStyledDialog.Builder setPositiveText(@StringRes int buttonTextRes);
+
+    MaterialStyledDialog.Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor);
 
     /**
      * Set a positive button text for the dialog. E.g.: "Accept"

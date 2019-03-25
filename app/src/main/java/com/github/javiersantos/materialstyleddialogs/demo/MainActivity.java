@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + context.getPackageName())));
                     }
                 })
-                .setNegativeText("Later");
+                .setNegativeText("Later")
+                .setHighlightBtn(DialogAction.POSITIVE, getResources().getColor(R.color.accent));
 
         final MaterialStyledDialog.Builder dialogHeader_2 = new MaterialStyledDialog.Builder(context)
                 .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_comment_alt).color(Color.WHITE))
