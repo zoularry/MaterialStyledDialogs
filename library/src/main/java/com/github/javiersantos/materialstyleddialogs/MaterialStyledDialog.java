@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -49,7 +50,7 @@ public class MaterialStyledDialog extends DialogBase {
 
     public ImageView getTitleIconView() {
         View custom = getBaseDialog().getCustomView();
-        if (custom!= null) {
+        if (custom != null) {
             return (ImageView) custom.findViewById(R.id.md_styled_header_pic);
         }
         return null;
@@ -119,16 +120,22 @@ public class MaterialStyledDialog extends DialogBase {
         if (builder.btnAction != null) {
             MDButton btn = materialDialog.getActionButton(builder.btnAction);
             if (btn != null) {
+                //default use header color
                 if (builder.btnColor == -1) builder.btnColor = builder.primaryColor;
-                Drawable dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
-                DrawableCompat.setTint(dw, UtilsLibrary.lighter(builder.btnColor, 0.2f));
-                dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
-                DrawableCompat.setTint(dw, builder.btnColor);
-                dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selector, null);
-                btn.setDefaultSelector(dw); //btns in horizontal mode
-                btn.setStackedSelector(dw); //btrs in stacked mode
+
+                Drawable unselectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
+                DrawableCompat.setTint(unselectedDrawable, UtilsLibrary.lighter(builder.btnColor, 0.2f));
+
+                Drawable selectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
+                DrawableCompat.setTint(selectedDrawable, builder.btnColor);
+
+                StateListDrawable bgSelector = new StateListDrawable();
+                bgSelector.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, selectedDrawable);
+                bgSelector.addState(new int[]{}, unselectedDrawable);
+
+                btn.setDefaultSelector(bgSelector); //btns in horizontal mode
+                btn.setStackedSelector(bgSelector); //btrs in stacked mode
                 btn.setTextColor(Color.WHITE);
-                //Logger.d(TAG, "setColorBtn: done with " + baseColor);
             }
         }
 

@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/javiersantos/MaterialStyledDialogs/issues")));
                     }
                 })
-                .setNegativeText("Not now");
+                .setNegativeText("Not now")
+                .setHighlightBtn(DialogAction.POSITIVE, getResources().getColor(R.color.primary));
 
         final MaterialStyledDialog.Builder dialogHeader_3 = new MaterialStyledDialog.Builder(context)
                 .setHeaderDrawable(R.drawable.header)
