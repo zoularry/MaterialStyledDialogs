@@ -116,9 +116,10 @@ public class MaterialStyledDialog extends DialogBase {
             }
         }
 
-        if (builder.btnAction != null && builder.btnColor != -1) {
+        if (builder.btnAction != null) {
             MDButton btn = materialDialog.getActionButton(builder.btnAction);
             if (btn != null) {
+                if (builder.btnColor == -1) builder.btnColor = builder.primaryColor;
                 Drawable dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
                 DrawableCompat.setTint(dw, UtilsLibrary.lighter(builder.btnColor, 0.2f));
                 dw = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
