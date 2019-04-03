@@ -3,11 +3,12 @@ package com.github.javiersantos.materialstyleddialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.internal.MDRootLayout;
+
+import androidx.annotation.NonNull;
 
 class DialogBase extends Dialog implements DialogInterface.OnShowListener {
 
