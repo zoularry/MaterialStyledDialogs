@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeText("Later")
-                .setHighlightBtn(DialogAction.POSITIVE, getResources().getColor(R.color.accent));
+                .setHighlightBtns(new DialogAction[]{DialogAction.POSITIVE, DialogAction.NEGATIVE},
+                        getResources().getColor(R.color.accent));
 
         final MaterialStyledDialog.Builder dialogHeader_2 = new MaterialStyledDialog.Builder(context)
                 .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_comment_alt).color(Color.WHITE))
@@ -72,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeText("Not now")
-                .setHighlightBtn(DialogAction.POSITIVE, getResources().getColor(R.color.primary));
+//                .setHighlightBtn(DialogAction.POSITIVE, getResources().getColor(R.color.primary));
+                .setHighlightBtn(DialogAction.NEGATIVE,
+                        getResources().getColor(R.color.primary));
 
         final MaterialStyledDialog.Builder dialogHeader_3 = new MaterialStyledDialog.Builder(context)
                 .setHeaderDrawable(R.drawable.header)

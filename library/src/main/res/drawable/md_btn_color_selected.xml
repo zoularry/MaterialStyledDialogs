@@ -6,7 +6,7 @@
        android:insetTop="@dimen/md_button_inset_vertical">
     <shape xmlns:android="http://schemas.android.com/apk/res/android"
            android:shape="rectangle">
-        <corners android:radius="@dimen/md_action_corner_radius"/>
+        <corners android:radius="@dimen/md_styled_button_radius"/>
         <solid android:color="?attr/colorPrimary"/>
         <padding
             android:bottom="@dimen/md_button_padding_vertical"

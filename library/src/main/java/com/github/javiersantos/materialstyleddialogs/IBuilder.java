@@ -185,9 +185,21 @@ interface IBuilder {
      */
     MaterialStyledDialog.Builder setPositiveText(@StringRes int buttonTextRes);
 
+    MaterialStyledDialog.Builder setHighlightBtns(DialogAction[] actions, @ColorInt int btnColor);
+
+    MaterialStyledDialog.Builder setHighlightBtns(DialogAction[] actions);
+
     MaterialStyledDialog.Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor);
 
     MaterialStyledDialog.Builder setHighlightBtn(DialogAction action);
+
+    /**
+     * Only >= Lollipop can be enable round corner for dialogs
+     *
+     * @param isRound enable round corner
+     * @return
+     */
+    MaterialStyledDialog.Builder setDialogRoundCorner(boolean isRound);
 
     /**
      * Set a positive button text for the dialog. E.g.: "Accept"

@@ -4,8 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -107,6 +110,12 @@ public class MaterialStyledDialog extends DialogBase {
         // Build the dialog with the previous configuration
         MaterialDialog materialDialog = dialogBuilder.build();
 
+        if (builder.dialogRoundCorner && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            materialDialog.getView().setBackground(ContextCompat.getDrawable(builder.context, R.drawable.md_dialog_round_corner_bg));
+            materialDialog.getView().setClipToOutline(true);
+            materialDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
         // Set dialog animation and animation duration
         if (builder.isDialogAnimation) {
             if (builder.duration == Duration.NORMAL) {
@@ -118,25 +127,36 @@ public class MaterialStyledDialog extends DialogBase {
             }
         }
 
-        if (builder.btnAction != null) {
-            MDButton btn = materialDialog.getActionButton(builder.btnAction);
-            if (btn != null) {
-                //default use header color
-                if (builder.btnColor == -1) builder.btnColor = builder.primaryColor;
+        if (builder.btnActions != null && builder.btnActions.length > 0) {
+            //default use header color
+            if (builder.btnColor == -1) builder.btnColor = builder.primaryColor;
 
-                Drawable unselectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
-                DrawableCompat.setTint(unselectedDrawable, UtilsLibrary.lighter(builder.btnColor, 0.2f));
+//            Drawable unselectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
+//            DrawableCompat.setTint(unselectedDrawable, UtilsLibrary.lighter(builder.btnColor, 0.2f));
+//
+//            Drawable selectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
+//            DrawableCompat.setTint(selectedDrawable, builder.btnColor);
 
-                Drawable selectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
-                DrawableCompat.setTint(selectedDrawable, builder.btnColor);
+//            StateListDrawable bgSelector = new StateListDrawable();
+//            bgSelector.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, selectedDrawable);
+//            bgSelector.addState(new int[]{}, unselectedDrawable);
 
-                StateListDrawable bgSelector = new StateListDrawable();
-                bgSelector.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, selectedDrawable);
-                bgSelector.addState(new int[]{}, unselectedDrawable);
+            for (DialogAction btnAction : builder.btnActions) {
+                MDButton btn = materialDialog.getActionButton(btnAction);
+                if (btn != null) {
+                    Drawable unselectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
+                    DrawableCompat.setTint(unselectedDrawable, UtilsLibrary.lighter(builder.btnColor, 0.2f));
 
-                btn.setDefaultSelector(bgSelector); //btns in horizontal mode
-                btn.setStackedSelector(bgSelector); //btrs in stacked mode
-                btn.setTextColor(Color.WHITE);
+                    Drawable selectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
+                    DrawableCompat.setTint(selectedDrawable, builder.btnColor);
+
+                    StateListDrawable bgSelector = new StateListDrawable();
+                    bgSelector.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, selectedDrawable);
+                    bgSelector.addState(new int[]{}, unselectedDrawable);
+                    btn.setDefaultSelector(bgSelector); //btns in horizontal mode
+                    btn.setStackedSelector(bgSelector); //btrs in stacked mode
+                    btn.setTextColor(Color.WHITE);
+                }
             }
         }
 
@@ -253,7 +273,9 @@ public class MaterialStyledDialog extends DialogBase {
         // .setPositive(), setNegative() and setNeutral()
         protected CharSequence positive, negative, neutral;
         protected int btnColor;
-        protected DialogAction btnAction;
+        protected DialogAction[] btnActions;
+        protected boolean dialogRoundCorner;
+
         protected MaterialDialog.SingleButtonCallback positiveCallback, negativeCallback, neutralCallback;
 
         public Builder(Context context) {
@@ -270,8 +292,9 @@ public class MaterialStyledDialog extends DialogBase {
             this.maxLines = 5;
             this.isAutoDismiss = true;
             this.headerScaleType = AppCompatImageView.ScaleType.CENTER_CROP;
-            this.btnAction = null;
+            this.btnActions = null;
             this.btnColor = -1;
+            this.dialogRoundCorner = false;
         }
 
         @Override
@@ -406,15 +429,28 @@ public class MaterialStyledDialog extends DialogBase {
         }
 
         @Override
-        public Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor) {
-            this.btnAction = action;
+        public Builder setHighlightBtns(DialogAction[] actions, @ColorInt int btnColor) {
+            this.btnActions = actions;
             this.btnColor = btnColor;
             return this;
         }
 
         @Override
-        public Builder setHighlightBtn(DialogAction action) {
-            this.btnAction = action;
+        public Builder setHighlightBtns(DialogAction[] actions) {
+            this.btnActions = actions;
+            return this;
+        }
+
+        @Override
+        public Builder setHighlightBtn(DialogAction action, @ColorInt int btnColor) {
+            this.btnActions = new DialogAction[]{action};
+            this.btnColor = btnColor;
+            return this;
+        }
+
+        @Override
+        public Builder setHighlightBtn(DialogAction actions) {
+            this.btnActions = new DialogAction[]{actions};
             return this;
         }
 
@@ -467,6 +503,12 @@ public class MaterialStyledDialog extends DialogBase {
         @Override
         public Builder setNeutralText(@StringRes int buttonTextRes) {
             setNeutralText(this.context.getString(buttonTextRes));
+            return this;
+        }
+
+        @Override
+        public Builder setDialogRoundCorner(boolean isRound) {
+            this.dialogRoundCorner = isRound;
             return this;
         }
 
