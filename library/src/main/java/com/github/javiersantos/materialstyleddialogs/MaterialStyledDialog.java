@@ -145,10 +145,11 @@ public class MaterialStyledDialog extends DialogBase {
                 MDButton btn = materialDialog.getActionButton(btnAction);
                 if (btn != null) {
                     Drawable unselectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_unselected, null);
-                    DrawableCompat.setTint(unselectedDrawable, UtilsLibrary.lighter(builder.btnColor, 0.2f));
+                    // DrawableCompat.wrap() to make <21 Drawable can be a "Tintable" drawable
+                    DrawableCompat.setTint(DrawableCompat.wrap(unselectedDrawable), UtilsLibrary.lighter(builder.btnColor, 0.2f));
 
                     Drawable selectedDrawable = ResourcesCompat.getDrawable(builder.context.getResources(), R.drawable.md_btn_color_selected, null);
-                    DrawableCompat.setTint(selectedDrawable, builder.btnColor);
+                    DrawableCompat.setTint(DrawableCompat.wrap(selectedDrawable), builder.btnColor);
 
                     StateListDrawable bgSelector = new StateListDrawable();
                     bgSelector.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, selectedDrawable);

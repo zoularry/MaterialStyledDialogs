@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/javiersantos")));
                     }
                 })
-                .setNegativeText("Not now");
+                .setNegativeText("Not now")
+                .setHighlightBtns(new DialogAction[]{DialogAction.POSITIVE, DialogAction.NEGATIVE});
 
         final MaterialStyledDialog.Builder dialogHeader_4 = new MaterialStyledDialog.Builder(context)
                 .setHeaderDrawable(R.drawable.header_2)
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=9205902632927830308")));
                     }
                 })
-                .setNegativeText("Not now");
+                .setNegativeText("Not now")
+                .setHighlightBtn(DialogAction.POSITIVE);
 
         final MaterialStyledDialog dialogHeader_5 = new MaterialStyledDialog.Builder(context)
                 .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_comment_alt).color(Color.WHITE))
