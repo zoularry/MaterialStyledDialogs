@@ -143,6 +143,8 @@ interface IBuilder {
      */
     MaterialStyledDialog.Builder setHeaderColor(@ColorRes int color);
 
+    MaterialStyledDialog.Builder setHeaderHeightMultiplier(Float multi);
+
     /**
      * Set a color for the dialog header. Default: Theme primary color.
      *

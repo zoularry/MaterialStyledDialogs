@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -94,7 +95,10 @@ public class MainActivity extends AppCompatActivity {
                 .setHighlightBtns(new DialogAction[]{DialogAction.POSITIVE, DialogAction.NEGATIVE});
 
         final MaterialStyledDialog.Builder dialogHeader_4 = new MaterialStyledDialog.Builder(context)
-                .setHeaderDrawable(R.drawable.header_2)
+                .setHeaderDrawable(R.drawable.rating_head)
+                .setHeaderHeightMultiplier(1.5f)
+                .setHeaderScaleType(ImageView.ScaleType.CENTER_INSIDE)
+                .setHeaderColorInt(Color.parseColor("#115B4D"))
                 .setTitle("Sweet!")
                 .setDescription("Check out my others apps with Material Design available on Google Play. Hope you find them interesting!")
                 .setPositiveText("Google Play")

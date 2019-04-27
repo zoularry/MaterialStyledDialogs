@@ -12,6 +12,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -200,6 +201,13 @@ public class MaterialStyledDialog extends DialogBase {
             }
         }
         dialogHeaderColor.setBackgroundColor(builder.primaryColor);
+
+        if (builder.headerHeightMultiplier != null && builder.headerHeightMultiplier > 0) {
+            ViewGroup.LayoutParams params = dialogHeaderColor.getLayoutParams();
+            params.height = (int) (params.height * builder.headerHeightMultiplier);
+            dialogHeaderColor.setLayoutParams(params);
+        }
+
         dialogHeader.setScaleType(builder.headerScaleType);
 
         //Set the custom view
@@ -266,6 +274,7 @@ public class MaterialStyledDialog extends DialogBase {
         protected boolean isIconAnimation, isDialogAnimation, isDialogDivider, isCancelable, isScrollable, isDarkerOverlay, isAutoDismiss; // withIconAnimation(), withDialogAnimation(), withDivider(), setCancelable(), setScrollable(), withDarkerOverlay(), autoDismiss()
         protected Drawable headerDrawable, iconDrawable; // setHeaderDrawable(), setIconDrawable()
         protected Integer primaryColor, maxLines; // setHeaderColor(), setScrollable()
+        protected Float headerHeightMultiplier; //setHeaderHeightMultiplier()
         protected CharSequence title, description; // setTitle(), setDescription()
         protected View customView; // setCustomView()
         protected int customViewPaddingLeft, customViewPaddingTop, customViewPaddingRight, customViewPaddingBottom;
@@ -394,6 +403,12 @@ public class MaterialStyledDialog extends DialogBase {
         @Override
         public Builder setHeaderColor(@ColorRes int color) {
             this.primaryColor = UtilsLibrary.getColor(context, color);
+            return this;
+        }
+
+        @Override
+        public Builder setHeaderHeightMultiplier(Float multi) {
+            this.headerHeightMultiplier = multi;
             return this;
         }
 
