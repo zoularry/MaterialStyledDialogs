@@ -72,6 +72,16 @@ public class MaterialStyledDialog extends DialogBase {
     }
 
     @UiThread
+    public boolean showIfOkay() {
+        try {
+            show();
+            return true;
+        } catch (Throwable e) {
+        }
+        return false;
+    }
+
+    @UiThread
     public void dismiss() {
         if (mBuilder != null && mBuilder.dialog != null)
             mBuilder.dialog.dismiss();
