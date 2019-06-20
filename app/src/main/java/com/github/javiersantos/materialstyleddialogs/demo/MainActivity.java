@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Build some dialogs for the sample app
         final MaterialStyledDialog.Builder dialogHeader_1 = new MaterialStyledDialog.Builder(context)
                 .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_google_play).color(Color.WHITE))
-                .withDialogAnimation(true)
+                .withDialogAnimation(false)
                 .setTitle("Awesome!")
                 .setDescription("Glad to see you like MaterialStyledDialogs! If you're up for it, we would really appreciate you reviewing us.")
                 .setHeaderColor(R.color.dialog_1)
@@ -62,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         getResources().getColor(R.color.accent));
 
         final MaterialStyledDialog.Builder dialogHeader_2 = new MaterialStyledDialog.Builder(context)
-                .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_comment_alt).color(Color.WHITE))
-                .withIconAnimation(false)
+                .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_account_box_mail).color(Color.WHITE))
+                .setIconLottieRaw(R.raw.star)
+                .withIconAnimation(true)
                 .setDescription("What can we improve? Your feedback is always welcome.")
                 .setHeaderColor(R.color.dialog_2)
                 .setPositiveText("Feedback")
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         final MaterialStyledDialog.Builder dialogHeader_3 = new MaterialStyledDialog.Builder(context)
                 .setHeaderDrawable(R.drawable.header)
                 .setIcon(new IconicsDrawable(context).icon(MaterialDesignIconic.Icon.gmi_github).color(Color.WHITE))
-                .withDialogAnimation(true)
+                .withDialogAnimation(false)
                 .setTitle("An awesome library?")
                 .setDescription("Do you like this library? Check out my other Open Source libraries and apps!")
                 .setPositiveText("GitHub")
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeText("Not now")
+                .setDialogRoundCorner(true)
                 .setHighlightBtn(DialogAction.POSITIVE);
 
         final MaterialStyledDialog dialogHeader_5 = new MaterialStyledDialog.Builder(context)

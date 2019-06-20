@@ -32,5 +32,6 @@ dependencies {
     implementation 'com.mikepenz:iconics-core:2.8.2@aar'
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.2@aar'
     implementation('com.mikepenz:aboutlibraries:5.9.4@aar') { transitive = true }
+
     implementation project(':library')
 }

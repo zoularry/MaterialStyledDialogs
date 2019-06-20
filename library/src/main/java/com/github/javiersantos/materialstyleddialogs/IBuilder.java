@@ -104,6 +104,14 @@ interface IBuilder {
     MaterialStyledDialog.Builder setIcon(@DrawableRes Integer iconRes);
 
     /**
+     * Set an lottie icon for the dialog header
+     *
+     * @param iconRes lottie raw res id
+     * @return this
+     */
+    MaterialStyledDialog.Builder setIconLottieRaw(@DrawableRes Integer iconRes);
+
+    /**
      * Set a title for the dialog
      *
      * @param titleRes to show

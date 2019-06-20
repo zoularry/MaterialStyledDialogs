@@ -22,6 +22,9 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.afollestad.materialdialogs.internal.MDButton;
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.LottieOnCompositionLoadedListener;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 
@@ -29,6 +32,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.RawRes;
 import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -196,7 +200,8 @@ public class MaterialStyledDialog extends DialogBase {
         // Init Views
         RelativeLayout dialogHeaderColor = (RelativeLayout) contentView.findViewById(R.id.md_styled_header_color);
         AppCompatImageView dialogHeader = (AppCompatImageView) contentView.findViewById(R.id.md_styled_header);
-        AppCompatImageView dialogPic = (AppCompatImageView) contentView.findViewById(R.id.md_styled_header_pic);
+        ImageView dialogPic = contentView.findViewById(R.id.md_styled_header_pic);
+        LottieAnimationView dialogLottie = contentView.findViewById(R.id.md_styled_header_lottie);
         TextView dialogTitle = (TextView) contentView.findViewById(R.id.md_styled_dialog_title);
         TextView dialogDescription = (TextView) contentView.findViewById(R.id.md_styled_dialog_description);
         FrameLayout dialogCustomViewGroup = (FrameLayout) contentView.findViewById(R.id.md_styled_dialog_custom_view);
@@ -235,6 +240,33 @@ public class MaterialStyledDialog extends DialogBase {
             }
         }
 
+        // Set header icon lottie
+        if (builder.iconRaw != null) {
+            if (builder.style == Style.HEADER_WITH_TITLE) {
+                Log.e("MaterialStyledDialog", "You can't set an icon to the HEADER_WITH_TITLE style.");
+            } else {
+                if (builder.isIconAnimation) {
+                    final View animView = dialogPic;
+                    dialogLottie.addLottieOnCompositionLoadedListener(new LottieOnCompositionLoadedListener() {
+                        @Override
+                        public void onCompositionLoaded(LottieComposition composition) {
+                            //dialogLottie.playAnimation();
+                            //Log.d("#", "load lottie completed. animate icon.");
+                            UtilsAnimation.popUp(animView, 0.8f);
+                        }
+                    });
+                }
+
+                dialogLottie.setAnimation(builder.iconRaw);
+
+                //dialogLottie.playAnimation();
+//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) dialogPic.getLayoutParams();
+//                lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+//                lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+//                dialogPic.setLayoutParams(lp);
+            }
+        }
+
         // Set dialog title
         if (builder.title != null && builder.title.length() != 0) {
             dialogTitle.setText(builder.title);
@@ -258,10 +290,10 @@ public class MaterialStyledDialog extends DialogBase {
             dialogDescription.setVisibility(View.GONE);
         }
 
-        // Set icon animation
-        if (builder.isIconAnimation) {
+        // Set icon animation (only no lottie anim set)
+        if (builder.isIconAnimation && builder.iconRaw == null) {
             if (builder.style != Style.HEADER_WITH_TITLE) {
-                UtilsAnimation.zoomInAndOutAnimation(builder.context, dialogPic);
+                UtilsAnimation.popUp(dialogPic, 0);
             }
         }
 
@@ -283,6 +315,7 @@ public class MaterialStyledDialog extends DialogBase {
         protected Duration duration; // withDialogAnimation()
         protected boolean isIconAnimation, isDialogAnimation, isDialogDivider, isCancelable, isScrollable, isDarkerOverlay, isAutoDismiss; // withIconAnimation(), withDialogAnimation(), withDivider(), setCancelable(), setScrollable(), withDarkerOverlay(), autoDismiss()
         protected Drawable headerDrawable, iconDrawable; // setHeaderDrawable(), setIconDrawable()
+        protected Integer iconRaw; //setIconLottieRaw()
         protected Integer primaryColor, maxLines; // setHeaderColor(), setScrollable()
         protected Float headerHeightMultiplier; //setHeaderHeightMultiplier()
         protected CharSequence title, description; // setTitle(), setDescription()
@@ -383,6 +416,12 @@ public class MaterialStyledDialog extends DialogBase {
         @Override
         public Builder setIcon(@DrawableRes Integer iconRes) {
             this.iconDrawable = ResourcesCompat.getDrawable(context.getResources(), iconRes, null);
+            return this;
+        }
+
+        @Override
+        public Builder setIconLottieRaw(@RawRes Integer iconRaw) {
+            this.iconRaw = iconRaw;
             return this;
         }
 
