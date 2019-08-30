@@ -7,7 +7,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "2.4.0"
+        //https://jitpack.io/#zoularry/MaterialStyledDialogs
+        versionName "2.4.0" //jitpack version is defined by "TAG", not here - check version control - Log
     }
     buildTypes {
         release {
@@ -19,7 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "com.airbnb.android:lottie:3.0.2"
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
     //2.x version doesn't compatible with this library

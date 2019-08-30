@@ -104,6 +104,7 @@ public class MaterialStyledDialog extends DialogBase {
         // Set positive button
         if (builder.positive != null && builder.positive.length() != 0)
             dialogBuilder.positiveText(builder.positive);
+
         if (builder.positiveCallback != null)
             dialogBuilder.onPositive(builder.positiveCallback);
 
@@ -118,6 +119,11 @@ public class MaterialStyledDialog extends DialogBase {
             dialogBuilder.neutralText(builder.neutral);
         if (builder.neutralCallback != null)
             dialogBuilder.onNeutral(builder.neutralCallback);
+
+        // Set all buttons color to same color as header
+        dialogBuilder.positiveColor(builder.primaryColor);
+        dialogBuilder.negativeColor(builder.primaryColor);
+        dialogBuilder.neutralColor(builder.primaryColor);
 
         // Set auto dismiss when touching the buttons
         dialogBuilder.autoDismiss(builder.isAutoDismiss);
